@@ -4,12 +4,12 @@ import karlo.springframework.sfgpetclinic.model.Pet;
 import karlo.springframework.sfgpetclinic.repositories.PetRepository;
 import karlo.springframework.sfgpetclinic.services.PetService;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Repository
+@Service
 @Profile("springdatajpa")
 public class PetSDJpaService implements PetService {
 
