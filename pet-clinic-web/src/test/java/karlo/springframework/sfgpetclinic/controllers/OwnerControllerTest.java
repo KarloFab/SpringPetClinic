@@ -2,8 +2,8 @@ package karlo.springframework.sfgpetclinic.controllers;
 
 import karlo.springframework.sfgpetclinic.model.Owner;
 import karlo.springframework.sfgpetclinic.services.OwnerService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ExtendWith(MockitoExtension.class)
-class OwnerControllerTest {
+public class OwnerControllerTest {
 
     @Mock
     OwnerService ownerService;
@@ -37,8 +37,8 @@ class OwnerControllerTest {
 
     MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         owners = new HashSet<>();
         owners.add(Owner.builder().id(1L).build());
         owners.add(Owner.builder().id(2L).build());
@@ -49,7 +49,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void listOwners() throws Exception {
+    public void listOwners() throws Exception {
         when(ownerService.findAll()).thenReturn(owners);
 
         mockMvc.perform(get("/owners"))
@@ -59,7 +59,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void findOwners() throws Exception {
+    public void findOwners() throws Exception {
         mockMvc.perform(get("/owners/find"))
                 .andExpect(status().is(200))
                 .andExpect(view().name("owners/findOwners"))
@@ -69,7 +69,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void showOwner() throws Exception {
+    public void showOwner() throws Exception {
         when(ownerService.findById(anyLong())).thenReturn(Owner.builder().id(1L).build());
 
         mockMvc.perform(get("/owners/123"))
