@@ -25,12 +25,12 @@ public class OwnerController {
     }
 
     @InitBinder
-    public void setAllowedFields(WebDataBinder webDataBinder){
+    public void setAllowedFields(WebDataBinder webDataBinder) {
         webDataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping({"","/index","/index.html"})
-    public String listOwners(Model model){
+    @RequestMapping({"", "/index", "/index.html"})
+    public String listOwners(Model model) {
 
         model.addAttribute("owners", ownerService.findAll());
 
@@ -38,32 +38,34 @@ public class OwnerController {
     }
 
     @RequestMapping({"/find"})
-    public String findOwners(Model model){
+    public String findOwners(Model model) {
         model.addAttribute("owner", Owner.builder());
         return "owners/findOwners";
     }
 
     @GetMapping("/owners")
-    public String processFindForm(Owner owner, BindingResult result, Model model){
-        if(owner.getLastName() == null){
+    public String processFindForm(Owner owner, BindingResult result, Model model) {
+        if (owner.getLastName() == null) {
             owner.setLastName("");
         }
 
-        List<Owner> results = ownerService.findAllByLastNameLike(owner.getLastName());
-        if(results.isEmpty()){
-            result.rejectValue("lastName","notFound","not found");
+        List<Owner> results = ownerService.findAllByLastNameLike("%" + owner.getLastName() + "%");
+
+        if (results.isEmpty()) {
+            result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
-        } else if(results.size() == 1){
-            owner = results.iterator().next();
+        } else if (results.size() == 1) {
+            owner = results.get(0);
             return "redirect:/owners/" + owner.getId();
-        } else{
-            model.addAttribute("selections",results);
+        } else {
+            // multiple owners found
+            model.addAttribute("selections", results);
             return "owners/ownersList";
         }
     }
 
     @GetMapping("/{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId){
+    public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
         ModelAndView modelAndView = new ModelAndView("owners/ownerDetails");
         modelAndView.addObject(this.ownerService.findById(ownerId));
         return modelAndView;
