@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,11 +49,18 @@ public class PetControllerTest {
 
     @BeforeEach
     void setUp() {
-        owner = Owner.builder().id(1l).build();
+        owner = Owner.builder().id(1l).pets(new HashSet<>()).build();
 
         petTypes = new HashSet<>();
-        petTypes.add(PetType.builder().id(1L).name("Dog").build());
         petTypes.add(PetType.builder().id(2L).name("Cat").build());
+        petTypes.add(PetType.builder().id(1L).name("Dog").build());
+
+        Pet pet = new Pet();
+        pet.setName("Just Cat");
+        pet.setOwner(owner);
+        pet.setBirthDate(LocalDate.now());
+        pet.setPetType(petTypes.iterator().next());
+        owner.getPets().add(pet);
 
         mockMvc = MockMvcBuilders
                 .standaloneSetup(petController)

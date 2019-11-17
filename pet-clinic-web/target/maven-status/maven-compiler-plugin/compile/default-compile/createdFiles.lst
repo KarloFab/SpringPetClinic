@@ -1,0 +1,5 @@
+karlo\springframework\sfgpetclinic\SfgPetClinicApplication.class
+karlo\springframework\sfgpetclinic\controllers\PetController.class
+karlo\springframework\sfgpetclinic\bootstrap\DataLoader.class
+karlo\springframework\sfgpetclinic\controllers\OwnerController.class
+karlo\springframework\sfgpetclinic\controllers\VetController.class
